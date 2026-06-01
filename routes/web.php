@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController; // Capitalized C
+use App\Http\Controllers\Dashboardcontroller; 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
         if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
         }
-        return app(DashboardController::class)->showDashboard();
+        return app(Dashboardcontroller::class)->showDashboard();
     })->name('dashboard');  
 
     // 🔒 STRICT SECURITY GATE FOR USER MANAGEMENT (Only your email is allowed)
