@@ -26,26 +26,22 @@
                 @endguest
 
                 @auth
-            
-
-                <li class="nav-item ms-lg-2">
-                    <a class="nav-link text-white btn btn-outline-success position-relative px-3" href="{{ route('cart.view') }}">
-                        🛒 Cart
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ count(session('cart', [])) }}
-                        </span>
-                    </a>
-                </li>
-            </ul>
-            <li class="nav-item dropdown ms-lg-3 mb-2 mb-lg-0 me-lg-2">
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link text-white btn btn-outline-success position-relative px-3" href="{{ route('cart.view') }}">
+                            🛒 Cart
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ count(session('cart', [])) }}
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item dropdown ms-lg-3 mb-2 mb-lg-0 me-lg-2">
                         <a class="nav-link dropdown-toggle btn btn-outline-success text-white px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                             {{ Auth::user()->name }}
+                            {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end bg-dark border-success" aria-labelledby="navbarDropdown">
-                            @if(Auth::user()->role === 'admin')
-                                <li><a class="dropdown-item text-white hover-success" href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li><hr class="dropdown-divider border-success"></li>
-                            @endif
+                            <li><a class="dropdown-item text-white hover-success" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><hr class="dropdown-divider border-success"></li>
                             
                             <li><a class="dropdown-item text-white" href="{{ route('profile') }}">My Profile</a></li>
                             <li><hr class="dropdown-divider border-success"></li>
@@ -53,6 +49,7 @@
                         </ul>
                     </li>
                 @endauth
+            </ul>
         </div>
     </div>
 </nav>
