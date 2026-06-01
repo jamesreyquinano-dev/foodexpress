@@ -79,10 +79,10 @@
                             <td class="fw-bold text-secondary">{{ $users->name }}</td>
                             <td><code class="text-dark bg-light px-2 py-1 rounded">{{ $users->email }}</code></td>
                             <td>
-                                @if(strtolower($users->role ?? '') == 'admin')
-                                    <span class="badge bg-primary text-white border px-2 py-1"> Admin</span>
+                                @if($users->email === 'jamesreyquinano@gmail.com')
+                                    <span class="badge bg-primary text-white border px-2 py-1">Admin</span>
                                 @else
-                                    <span class="badge bg-light text-dark border px-2 py-1"> User</span>
+                                    <span class="badge bg-light text-dark border px-2 py-1">User</span>
                                 @endif
                             </td>
                             <td>
@@ -122,13 +122,8 @@
                                                 <label class="form-label fw-semibold text-muted small">Email Address</label>
                                                 <input type="email" name="email" class="form-control" value="{{ $users->email }}" required>
                                             </div>
-                                            <div class="mb-3">
-                                               <label class="form-label fw-semibold text-muted small">System Access Role</label>
-                                                    <select name="role" class="form-select">
-                                                    <option value="user" {{ (strtolower($users->role ?? '') == 'user') ? 'selected' : '' }}>User</option>
-                                                    <option value="admin" {{ (strtolower($users->role ?? '') == 'admin') ? 'selected' : '' }}>Admin</option>
-                                                </select>
-                                            </div>
+                                            <input type="hidden" name="role" value="user">
+                                            
                                             <div class="mb-3">
                                                <label class="form-label fw-semibold text-muted small">Account Operations Status</label>
                                                    <select name="status" class="form-select">
