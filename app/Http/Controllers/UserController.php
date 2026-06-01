@@ -26,10 +26,9 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         
-        // 💡 REMOVED: $user->role because the column doesn't exist in your SQLite database!
-        
-        // Keep status dynamic to prevent crashes if it doesn't exist either
-        $user->status = strtolower($request->input('status', 'active')); 
+        // 💡 FIXED: Removed strtolower() so it preserves case formats (e.g., 'Active', 'Inactive')
+        // This stops SQLite from throwing Integrity Constraint Errors!
+        $user->status = $request->input('status', 'Active'); 
         
         $user->save();
         
