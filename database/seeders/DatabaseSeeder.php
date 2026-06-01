@@ -21,9 +21,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@foodexpress.com',
                 'password' => bcrypt('password'), // Password is: password
-                'gender' => 'Male', // Added to satisfy the NOT NULL constraint!
-                'phone' => '',      // Added with blank text just in case it's required too
-                'address' => '',    // Added with blank text just in case it's required too
+                'gender' => 'Male', // This one is required!
             ]);
         }
     }
