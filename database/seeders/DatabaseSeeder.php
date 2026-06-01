@@ -13,15 +13,15 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+   public function run(): void
     {
         // Check if the admin already exists so it doesn't create duplicates
         if (!User::where('email', 'admin@foodexpress.com')->exists()) {
             User::create([
                 'name' => 'Admin',
                 'email' => 'admin@foodexpress.com',
-                'password' => bcrypt('password'), // Your login password will be: password
-                'role' => 'admin', // Keep this or change to 'is_admin' => 1 based on your project
+                'password' => bcrypt('password'), // Password is: password
+                'is_admin' => 1, // Changed from role to is_admin
             ]);
         }
     }
