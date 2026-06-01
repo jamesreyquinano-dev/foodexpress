@@ -18,17 +18,18 @@ class UserController extends Controller
     }
 
     // 2. Update user from the admin grid list
+    // 2. Update user from the admin grid list
     public function updateUser(Request $request, int $id)
     {
         $user = User::findOrFail($id);
     
-        // Save name and email cleanly
+        // 1. Save name and email cleanly
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         
-        // 💡 FIXED: Removed strtolower() so it preserves case formats (e.g., 'Active', 'Inactive')
-        // This stops SQLite from throwing Integrity Constraint Errors!
-        $user->status = $request->input('status', 'Active'); 
+        
+        // 3. Fix the status capitalization so it passes the SQLite CHECK rule ('Active' / 'Inactive')
+        $user->status = ucfirst(strtolower($request->input('status', 'Active'))); 
         
         $user->save();
         
