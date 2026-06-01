@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
         if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
         }
-        return app(Dashboardcontroller::class)->showDashboard();
+        return app(DashboardController::class)->showDashboard();
     })->name('dashboard');  
 
     // User Management List View Security Gate (Fixed using Email validation)

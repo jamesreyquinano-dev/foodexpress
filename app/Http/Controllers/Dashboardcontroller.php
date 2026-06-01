@@ -19,9 +19,19 @@ class DashboardController extends Controller
         $totalOrders = Order::count();
         $totalSales = Order::sum('total_price');
 
-        // 3. Gather chart data
+        // 3. Gather chart data (Updated to use SQLite compatible date logic)
         $weeklyData = Order::select(
-            DB::raw('DAYNAME(created_at) as day'),
+            DB::raw("
+                CASE strftime('%w', created_at)
+                    WHEN '0' THEN 'Sunday'
+                    WHEN '1' THEN 'Monday'
+                    WHEN '2' THEN 'Tuesday'
+                    WHEN '3' THEN 'Wednesday'
+                    WHEN '4' THEN 'Thursday'
+                    WHEN '5' THEN 'Friday'
+                    WHEN '6' THEN 'Saturday'
+                END as day
+            "),
             DB::raw('COUNT(*) as count')
         )
         ->where('created_at', '>=', now()->subDays(7))
