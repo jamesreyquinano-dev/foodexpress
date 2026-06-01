@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Dashboardcontroller;
+use App\Http\Controllers\DashboardController; // Capitalized C
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
@@ -36,10 +36,10 @@ Route::get('/logout', function () {
 })->name('logout');
 
 
-// Authenticated Session Group
+// Authenticated Session Group - Users must be logged in
 Route::middleware(['auth'])->group(function () {
     
-    // Dashboard View Security Gate (Fixed using Email validation)
+    // 🔒 STRICT SECURITY GATE FOR DASHBOARD (Only your email is allowed)
     Route::get('/dashboard', function() {
         if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
         return app(DashboardController::class)->showDashboard();
     })->name('dashboard');  
 
-    // User Management List View Security Gate (Fixed using Email validation)
+    // 🔒 STRICT SECURITY GATE FOR USER MANAGEMENT (Only your email is allowed)
     Route::get('/user', function() {
         if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
         return app(UserController::class)->showUser();
     })->name('user');
 
-    // User Management CRUD Operations (Protected via Admin Email validation)
+    // 🔒 CRUD Operation Protection
     Route::post('/user/update/{id}', function($id) {
         if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied!');
@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.delete');
 
 
-    // Profile Management Access
+    // Regular Customer Profile Access (Every logged-in user can access this)
     Route::get('/profile', function () {
         return view('profile'); 
     })->name('profile');
