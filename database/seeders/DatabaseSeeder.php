@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // Check if the admin already exists so it doesn't create duplicates
         if (!User::where('email', 'admin@foodexpress.com')->exists()) {
-            User::create([
-                'name' => 'Admin',
-                'email' => 'admin@foodexpress.com',
-                'password' => bcrypt('password'), // Password is: password
-                'gender' => 'Male', // This one is required!
-            ]);
+           User::create([
+            'name' => 'James Rey',
+            'email' => 'jamesreyquinano@gmail.com', // Your email here
+            'password' => bcrypt('12345'),          // Your password here
+            'gender' => 'Male',
+        ]);
         }
     }
 }
