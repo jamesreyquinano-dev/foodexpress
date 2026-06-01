@@ -36,31 +36,42 @@ Route::get('/logout', function () {
 })->name('logout');
 
 
-
+// Authenticated Session Group
 Route::middleware(['auth'])->group(function () {
     
-    
-    // Dashboard View Security Gate
+    // Dashboard View Security Gate (Fixed using Email validation)
     Route::get('/dashboard', function() {
-        if (Auth::user()->role !== 'admin') {
+        if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
         }
         return app(Dashboardcontroller::class)->showDashboard();
     })->name('dashboard');  
 
-    // User Management List View Security Gate
+    // User Management List View Security Gate (Fixed using Email validation)
     Route::get('/user', function() {
-        if (Auth::user()->role !== 'admin') {
+        if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
             return redirect('/')->with('error', 'Access Denied! Admins only.');
         }
         return app(UserController::class)->showUser();
     })->name('user');
 
-    // User Management CRUD Operations
-    Route::post('/user/update/{id}', [UserController::class, 'updateUser'])->name('user.update');
-    Route::get('/user/delete/{id}', [UserController::class, 'deleteUser'])->name('user.delete');
+    // User Management CRUD Operations (Protected via Admin Email validation)
+    Route::post('/user/update/{id}', function($id) {
+        if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
+            return redirect('/')->with('error', 'Access Denied!');
+        }
+        return app(UserController::class)->updateUser(request(), $id);
+    })->name('user.update');
+
+    Route::get('/user/delete/{id}', function($id) {
+        if (Auth::user()->email !== 'jamesreyquinano@gmail.com') {
+            return redirect('/')->with('error', 'Access Denied!');
+        }
+        return app(UserController::class)->deleteUser($id);
+    })->name('user.delete');
 
 
+    // Profile Management Access
     Route::get('/profile', function () {
         return view('profile'); 
     })->name('profile');
