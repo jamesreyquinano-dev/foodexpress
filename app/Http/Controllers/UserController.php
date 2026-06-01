@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage; // FIXED: Imported the Storage facade at the top
+use Illuminate\Support\Facades\Storage; 
 
 class UserController extends Controller
 {
@@ -22,11 +22,15 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
     
-        // Save everything cleanly in lowercase to match your view conditions
+        // Save name and email cleanly
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->role = strtolower($request->input('role'));     
-        $user->status = strtolower($request->input('status')); 
+        
+        // 💡 REMOVED: $user->role because the column doesn't exist in your SQLite database!
+        
+        // Keep status dynamic to prevent crashes if it doesn't exist either
+        $user->status = strtolower($request->input('status', 'active')); 
+        
         $user->save();
         
         return redirect()->back()->with('success', 'User account records have been modified successfully!');
@@ -58,7 +62,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 
-        // FIXED: Process and upload the image file to local storage directory layout
+        // Process and upload the image file to local storage directory layout
         if ($request->hasFile('profile_image')) {
             
             // Delete their previous profile image from the system disk if it exists
@@ -92,7 +96,7 @@ class UserController extends Controller
             'password' => ['required'],
         ]);
 
-        // Attempt authentication match against phpMyAdmin records
+        // Attempt authentication match against database records
         if (Auth::attempt($credentials)) {
             // Generate the secure session token to prevent the login loop bug
             $request->session()->regenerate();
