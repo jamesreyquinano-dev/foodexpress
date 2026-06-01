@@ -15,13 +15,12 @@ class DatabaseSeeder extends Seeder
      */
    public function run(): void
     {
-        // Check if the admin already exists so it doesn't create duplicates
+        // Create a standard login account without any extra role columns
         if (!User::where('email', 'admin@foodexpress.com')->exists()) {
             User::create([
                 'name' => 'Admin',
                 'email' => 'admin@foodexpress.com',
                 'password' => bcrypt('password'), // Password is: password
-                'is_admin' => 1, // Changed from role to is_admin
             ]);
         }
     }
